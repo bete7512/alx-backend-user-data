@@ -24,6 +24,7 @@ elif AUTH_TYPE == 'basic_auth':
     auth = BasicAuth()
 
 
+
 @app.errorhandler(401)
 def unauthorized(error) -> str:
     """ error handler for (unauthorized) 401 status code """
@@ -48,6 +49,7 @@ def before_request_func() -> str:
             abort(401)
         if not auth.current_user(request):
             abort(403)
+        auth.current_user = request.current_user
 
 
 if __name__ == "__main__":
