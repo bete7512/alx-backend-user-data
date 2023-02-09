@@ -10,6 +10,7 @@ from models.user import User
 class SessionAuth(Auth):
     """"" SessionAuth class, Require auth with stars """""
     user_id_by_session_id = {}
+
     def create_session(self, user_id: str = None) -> str:
         """"" Create session """""
         if user_id is None or type(user_id) is not str:
