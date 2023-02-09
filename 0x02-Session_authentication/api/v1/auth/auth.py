@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """ Auth class, Require auth with stars """
+from os import getenv
 from flask import request
 from typing import List, TypeVar
 
@@ -33,9 +34,11 @@ class Auth():
     def current_user(self, request=None) -> TypeVar('User'):
         """ current user """
         return None
+
     def session_cookie(self, request=None):
         """" session cookie"""
         if request is None:
             return None
-        _my_session_id = request.cookies.get("session_id")
+        session_env = getenv('SESSION_NAME', None)
+        _my_session_id = request.cookies.get(session_env, None)
         return _my_session_id
