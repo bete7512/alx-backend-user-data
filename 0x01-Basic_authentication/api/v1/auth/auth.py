@@ -6,6 +6,7 @@ from typing import List, TypeVar
 
 class Auth():
     """ Auth class, Require auth with stars """
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ require authorization """
         if path is None or excluded_paths is None or not len(excluded_paths):
@@ -20,6 +21,7 @@ class Auth():
             return False
         else:
             return True
+
     def authorization_header(self, request=None) -> str:
         """ authorization header """
         if request is None:
@@ -27,6 +29,7 @@ class Auth():
         if not request.headers.get("Authorization"):
             return None
         return request.headers.get("Authorization")
+
     def current_user(self, request=None) -> TypeVar('User'):
         """ current user """
         return None
