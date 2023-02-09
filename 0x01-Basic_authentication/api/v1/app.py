@@ -14,6 +14,15 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
+auth = None
+AUTH_TYPE = getenv("AUTH_TYPE")
+if AUTH_TYPE == 'auth':
+    from api.v1.auth.auth import Auth
+    auth = Auth()
+elif AUTH_TYPE == 'basic_auth':
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
+
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
@@ -24,7 +33,24 @@ def unauthorized(error) -> str:
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """ error handler for (forbidden) 403 status code """
-    return jsonify({ "error": "Forbidden" }), 403
+    return jsonify({"error": "Forbidden"}), 403
+
+
+@app.before_request
+def before_request_func() -> str:
+    """ before request function"""
+    if auth is None:
+        return
+    if auth.require_auth(request.path, [
+        '/api/v1/status/',
+        '/api/v1/unauthorized/',
+        '/api/v1/forbidden/'
+    ]):
+        if not auth.authorization_header(request):
+            abort(401)
+        if not auth.current_user(request):
+            abort(403)
+
 
 
 if __name__ == "__main__":
