@@ -9,4 +9,3 @@ from models.user import User
 
 class SessionAuth(Auth):
     """"" SessionAuth class, Require auth with stars """""
-    
