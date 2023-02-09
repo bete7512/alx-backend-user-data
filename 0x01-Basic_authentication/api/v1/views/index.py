@@ -38,4 +38,4 @@ def stats() -> str:
 @app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
 def forbidden() -> str:
     """ GET /api/v1/forbidden    """
-    abort(401)
+    abort(403)
