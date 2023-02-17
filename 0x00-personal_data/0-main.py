@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Main file
+Main file for test I just do something from github workspace
 """
 
 filter_datum = __import__('filtered_logger').filter_datum
